@@ -23,12 +23,18 @@
 			var size_x=608;
 			var size_y=480;
 			var scene="";
-			var playerObj=[];
+			var playerObj=[
+				{username:"name",controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0},
+				{username:"name",controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0},
+				{username:"name",controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0},
+				{username:"name",controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0},
+				{username:"name",controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0}
+			];
 			var config = 
 			{
 				"menu":[
 					{text:"WINS NEEDED",value:3,min:3,max:9},
-					{text:"PLAYERS",value:2,min:2,max:5},
+					{text:"PLAYERS",value:2,min:2,max:2},
 					{text:"SHOP",value:"ON"},
 					{text:"SHRINKING",value:"OFF"},
 					{text:"FASTIGNITION",value:"ON"},
@@ -55,6 +61,8 @@
 			creditsScreen.src="img/credits.png";
 			
 			var active_position=0;
+			var playerArray_position=0;
+			
 			var canv = document.getElementById ("canv");
 			var ctx = canv.getContext ("2d");
 			ctx.font = "18px Amiga";
@@ -92,33 +100,68 @@
 					//zeichne credits
 				}
 				if (scene ==="menu"){
-					var y_zeile=1;
+					var y_line=1;
 					ctx.fillStyle = "brown";
 					ctx.clearRect (0, 0, canv.width, canv.height);
 					
 					for(var i=0;i<config.menu.length; i++)
 					{
-						if (y_zeile == 1)
+						if (y_line == 1)
 						{
-							ctx.fillText ("MAIN MENU", 200, 35*y_zeile);
-							y_zeile++;
-							ctx.fillText ("---------", 200, 35*y_zeile);			
-							y_zeile++;
+							ctx.fillText ("MAIN MENU", 200, 35*y_line);
+							y_line++;
+							ctx.fillText ("---------", 200, 35*y_line);			
+							y_line++;
 						}
 						
 						if (active_position===i) 
 						{
 							ctx.fillStyle = "red";
-							ctx.fillText (" > ", 70, 35*y_zeile);
+							ctx.fillText (" > ", 70, 35*y_line);
 						};
 						ctx.fillStyle = "brown";
-						ctx.fillText (config.menu[i].text, 120, 35*y_zeile); 	
-						ctx.fillText (": " + config.menu[i].value, 380, 35*y_zeile); 
-						y_zeile++;
+						ctx.fillText (config.menu[i].text, 120, 35*y_line); 	
+						ctx.fillText (": " + config.menu[i].value, 380, 35*y_line); 
+						y_line++;
 					}
 				}
 				if (scene === "playerChoice")
 				{
+					//sprites for players
+					var y_line=1;
+					ctx.fillStyle = "blue";
+					ctx.clearRect (0, 0, canv.width, canv.height);
+					
+					for(var i=0;i<playerObj.length; i++)
+					{
+						if (y_line == 1)
+						{
+							ctx.fillText ("CHOOSE PLAYER", 160, 48*y_line);
+							y_line++;
+							ctx.fillText ("---------", 200, 48*y_line);			
+							y_line++;
+						}
+						
+						if (active_position===i) 
+						{
+							ctx.fillStyle = "red";
+							ctx.fillText (" > ", 70, 48*y_line);
+						};
+						ctx.fillStyle = "blue";
+						ctx.fillText ("PLAYER " + (i+1), 120, 48*y_line);
+						ctx.fillText (": ", 300, 48*y_line);
+						if(config.player[playerArray_position].taken === false)
+						{
+							ctx.drawImage (players, config.player[playerArray_position].sx, config.player[playerArray_position].sy,config.player[playerArray_position].sw,config.player[playerArray_position].sh, 380, 48*y_line, config.player[playerArray_position].sw,config.player[playerArray_position].sh); 
+						}
+						y_line++;
+					}
+				}
+				if (scene === "game")
+				{
+					scene="game";
+					$("#myCanvas").css("display","none");
+					startGame(playerObj);
 					//sprites for players
 				}
 				if (scene === "shop")
@@ -204,13 +247,60 @@
 						draw("menu");
 					}
 					else if (event.which == 13) { //enter
-						//draw("game");
+						active_position=0;
 						console.log("startGame");
+						draw("playerChoice");
 					};
 				}
+				else if (scene==="playerChoice")
+				{
+					if (event.which == 37) { //left
+						if (playerArray_position === 0)
+						{
+							playerArray_position = config.player.length -1;
+						}
+						else
+						{
+							playerArray_position--;
+						}
+						draw("playerChoice");
+					}
+						
+					else if (event.which == 39) { //right
+						if (playerArray_position === config.player.length -1)
+						{
+							playerArray_position = 0;
+						}
+						else
+						{
+							playerArray_position++;
+						}
+						draw("playerChoice");
+					}
+					else if (event.which == 38) { //up
+						if (active_position >0)
+						{
+							active_position--;
+						}
+						draw("playerChoice");
+					}
+					else if (event.which == 40) { //down
+						if (active_position <config.menu.length-1)
+						{
+							active_position++;
+						}
+						draw("playerChoice");
+					}
+					else if (event.which == 13) { //enter
+						active_position=0;
+						console.log("startGame");
+						draw("playerChoice");
+					};
+				}
+				
 			});
 			
-			draw("start");
+			draw("playerChoice");
 		}
 	</script>
 </body>

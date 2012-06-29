@@ -1,0 +1,20 @@
+Choose Player menu;
+
+wenn die Anzahl an Spieler festgelegt wurde:
+	generiere mir ein spieler array (denn ich dann später dem Micha übergeben soll)
+	
+	für Micha interessant:
+	username:"DUKE",controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0
+	
+	playerObj mit 
+	
+	player1: username:"DUKE",controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0
+	player2:
+	username:"DUKE",controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0
+	player3:
+	username:"DUKE",controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0
+	player4:
+	username:"DUKE",controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0
+	player5:
+	username:"DUKE",controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0
+	
