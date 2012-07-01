@@ -24,11 +24,11 @@
 			var size_y=480;
 			var scene="";
 			var playerObj=[
-				{username:"name",controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0},
-				{username:"name",controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0},
-				{username:"name",controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0},
-				{username:"name",controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0},
-				{username:"name",controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0}
+				{username:"POLICEMAN",controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0},
+				{username:"DUKE",controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0},
+				{username:"DETECTIVE",controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0},
+				{username:"GREEN",controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0},
+				{username:"CHINESE",controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxbomben:1,feuerrange:2,speed:1.7,invinsible:false,wins:0}
 			];
 			var config = 
 			{
@@ -150,19 +150,11 @@
 						ctx.fillStyle = "blue";
 						ctx.fillText ("PLAYER " + (i+1), 120, 48*y_line);
 						ctx.fillText (": ", 300, 48*y_line);
-						if(config.player[playerArray_position].taken === false)
-						{
-							ctx.drawImage (players, config.player[playerArray_position].sx, config.player[playerArray_position].sy,config.player[playerArray_position].sw,config.player[playerArray_position].sh, 380, 48*y_line, config.player[playerArray_position].sw,config.player[playerArray_position].sh); 
-						}
+						/*
+							More to come!
+						*/
 						y_line++;
 					}
-				}
-				if (scene === "game")
-				{
-					scene="game";
-					$("#myCanvas").css("display","none");
-					startGame(playerObj);
-					//sprites for players
 				}
 				if (scene === "shop")
 				{
@@ -171,6 +163,13 @@
 				if (scene === "countdown")
 				{
 					//cntdown animation
+				}
+				if (scene === "game")
+				{
+					scene="game";
+					$("#myCanvas").css("display","none");
+					startGame(playerObj);
+					//sprites for players
 				}
 				if (scene === "hallOfFame")
 				{
