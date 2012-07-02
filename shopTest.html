@@ -55,12 +55,12 @@
 					{name:"money",sx:32,sy:224,sw:32,sh:32}
 				],
 				"buyableExtras":[
-					{name:"EXTRA BOMB"} 
-					{name:"POWER-UP"}
-					{name:"TIMEBOMB"}
-					{name:"PROTECTION"}
-					{name:"SPEED-UP"}
-				]
+					{name:"EXTRA BOMB",sx:32,sy:160,sw:32,sh:32,prize:1}, 
+					{name:"POWER-UP",sx:64,sy:160,sw:32,sh:32,prize:1},
+					{name:"TIMEBOMB",sx:96,sy:160,sw:32,sh:32,prize:3},
+					{name:"PROTECTION",sx:0,sy:192,sw:32,sh:32,prize:3},
+					{name:"SPEED-UP",sx:0,sy:160,sw:32,sh:32,prize:4}
+				],
 			};
 			var players=new Image();
 			players.src="img/sprite_players.png";
@@ -80,47 +80,44 @@
 				scene = "shop";
 				console.log("Loading scene:", scene, "for player", playerNr)
 				var y_line=1;
-					ctx.fillStyle = "blue";
-					ctx.clearRect (0, 0, canv.width, canv.height);
+				ctx.fillStyle = "blue";
+				ctx.clearRect (0, 0, canv.width, canv.height);
 					
-					for(var i=0;i<playerObj.length; i++)
+				for(var i=0;i < config.buyableExtras.length; i++)
+				{
+					console.log(config.buyableExtras.length);
+					if (y_line == 1)
 					{
-						if (y_line == 1)
-						{
-							ctx.fillText (playerObj[active_player].username + " ENTERS SHOP", 120, 35*y_line);
-							y_line++;
+						ctx.fillText (playerObj[active_player].username + " ENTERS SHOP", 120, 35*y_line);
+						y_line++;
 							
-							if (playerObj[active_player].money > 0)
+						if (playerObj[active_player].money > 0)
+						{
+							ctx.fillText ("MONEY:", 50, 45*y_line);
+							for (var j=0; j < playerObj[active_player].money; j++)
 							{
-								ctx.fillText ("MONEY:", 50, 45*y_line);
-								for (var j=0; j < playerObj[active_player].money; j++)
-								{
-									ctx.drawImage(extras,config.environmentExtras[1].sx,config.environmentExtras[1].sy,config.environmentExtras[1].sw,config.environmentExtras[1].sh,150+(j*32),35*y_line,config.environmentExtras[1].sw,config.environmentExtras[1].sh);
+								ctx.drawImage(extras,config.environmentExtras[1].sx,config.environmentExtras[1].sy,config.environmentExtras[1].sw,config.environmentExtras[1].sh,150+(j*32),35*y_line,config.environmentExtras[1].sw,config.environmentExtras[1].sh);
 									//ctx.fillText ("t", 300+(j*32), 45*y_line);
-								}
-							}
-							y_line++;
-						}
-						
-						if (active_position===i) 
-						{
-							ctx.fillStyle = "red";
-							ctx.fillText (" > ", 70, 45*y_line);
-						};
-						ctx.fillStyle = "blue";
-						
-						ctx.fillText ("PLAYER " + (i+1), 120, 45*y_line);
-						ctx.fillText (": ", 300, 45*y_line);
-						
-						for(var k=0; k<config.player.length; k++)
-						{
-							if (playerObj[i].username===config.player[k].name)
-							{
-								ctx.drawImage(players,config.player[k].sx,config.player[k].sy,config.player[k].sw,config.player[k].sh,320,40*y_line,config.player[k].sw,config.player[k].sh);
 							}
 						}
 						y_line++;
+						ctx.fillText ("EXTRAS", 170, 45*y_line);
+						ctx.fillText ("PRIZE", 370, 45*y_line);
+						y_line++;
 					}
+						
+					if (active_position===i) 
+					{
+						ctx.fillStyle = "red";
+						ctx.fillText (" > ", 70, 45*y_line);
+					};
+					ctx.fillStyle = "blue";
+					ctx.fillText (config.buyableExtras[i].name, 120, 45*y_line);
+					ctx.drawImage(extras,config.buyableExtras[i].sx,config.buyableExtras[i].sy,config.buyableExtras[i].sw,config.buyableExtras[i].sh,300,41*y_line,config.buyableExtras[i].sw,config.buyableExtras[i].sh);
+					ctx.fillText (config.buyableExtras[i].prize, 370, 45*y_line);
+					y_line++;
+				}
+				ctx.fillText ("EXIT", 250, 50*y_line);
 			}
 			
 			$(document).keydown(function(event){
