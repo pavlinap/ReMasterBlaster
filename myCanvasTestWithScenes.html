@@ -100,6 +100,31 @@
 				return value;
 			}
 			
+			gameFinished = function(myGameObj)
+			{
+				//console.log("wins", playerObj[0].wins, playerObj[1].wins);
+				//console.log(playerObj[0].wins);
+				//for (var i=0; i< playerObj.length; i++)
+				//{
+					//console.log("wins in for 0", playerObj[0].wins);
+				//	playerObj[i].wins = myGameObj[i].wins;
+				//	playerObj[i].money = myGameObj[i].money;
+					
+				//}
+				//console.log("wins in for", playerObj[i].wins);
+
+				//console.log(playerObj[0].wins, playerObj[1].wins);
+				//$("#cr-stage").css("display","none");
+				//$("#myCanvas").css("display","block");
+				//draw("hallOfFame");
+				console.log("wins in playerObj", playerObj[0].wins, playerObj[1].wins);
+				console.log("wins in myGameObj", myGameObj[0].wins, myGameObj[1].wins);
+				
+				console.log("money in playerObj", playerObj[0].money, playerObj[1].money);
+				console.log("money in myGameObj", myGameObj[0].money, myGameObj[1].money);
+			}
+			
+			
 			function drawShop(playerNr)
 			{
 				active_player = playerNr;
@@ -143,25 +168,6 @@
 					y_line++;
 				}
 				ctx.fillText ("EXIT", 250, 50*y_line);
-			}
-			
-			gameFinished = function(myGameObj)
-			{
-				//console.log("wins", playerObj[0].wins, playerObj[1].wins);
-				//console.log(playerObj[0].wins);
-				for (var i=0; i< playerObj.length; i++)
-				{
-					//console.log("wins in for 0", playerObj[0].wins);
-					playerObj[i].wins = myGameObj[i].wins;
-					playerObj[i].money = myGameObj[i].money;
-					
-				}
-				//console.log("wins in for", playerObj[i].wins);
-
-				//console.log(playerObj[0].wins, playerObj[1].wins);
-				$("#cr-stage").css("display","none");
-				$("#myCanvas").css("display","block");
-				draw("hallOfFame");
 			}
 			
 			function draw(x)
