@@ -5,8 +5,13 @@
 * @version  0.8 
 */
 
-function startGame(gameState, main) {//gameState
+function startGame(gameObj, main) {//gameState
 	//start crafty
+		
+	//var gameState = jQuery.extend({}, gameObj);
+	var gameState = gameObj.slice(0);
+	console.log(gameState.length);
+	
 	Crafty.init(608, 480);
 	
 	/**
