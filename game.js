@@ -5,13 +5,9 @@
 * @version  0.8 
 */
 
-function startGame(gameObj, main) {//gameState
+function startGame(gameState, main) {//gameState
 	//start crafty
 		
-	//var gameState = jQuery.extend({}, gameObj);
-	var gameState = gameObj.slice(0);
-	console.log(gameState.length);
-	
 	Crafty.init(608, 480);
 	
 	/**
@@ -866,7 +862,7 @@ function startGame(gameObj, main) {//gameState
 							this.addComponent("Invincible");
 							this.setInvincibleAnimation(this.PLAYER);
 						}
-						console.log(gameState);
+						//console.log(gameState);
 					}
 					
 

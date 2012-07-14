@@ -5,15 +5,14 @@
     <style>
 	@font-face { font-family: "Amiga"; src: url('amiga4ever.ttf') format("truetype");}
     body, html { margin:0; padding: 0; overflow:hidden;font-family: "Amiga"; font-size:1.0em; text-transform: uppercase;}
-    #cr-stage {border:2px solid black; margin:5px auto; color:white; display:block;}
-	#myCanvas {margin: 5px auto; height:480px; width:608px; border:2px solid black; background: #333; position:relative;display:block;}
+    #cr-stage {border:2px solid black; margin:5px auto; background-color:black; color:black; display:block;}
+	#myCanvas {margin: 5px auto; height:480px; width:608px; border:2px solid black; color: #15527c; background: #999999; position:relative;display:block;}
     </style>
 </head>
 <body>
 	<script src="jquery.min.js"></script>
 	<script src="game.js"></script>
 	<script src="sprites.js"></script>
-	
 	<div id = "myCanvas">
 		<canvas id="canv" width="608" height="480"></canvas>
 	</div>
@@ -25,6 +24,8 @@
 			var size_x=608;
 			var size_y=480;
 			var scene="";
+			var cntdown=3;
+
 			var playerObj=[
 				{username:"POLICEMAN", spriteposition: 0,controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:true,wins:0},
 				{username:"DUKE", spriteposition: 1,controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0}
@@ -81,8 +82,24 @@
 			var canv = document.getElementById ("canv");
 			var ctx = canv.getContext ("2d");
 			ctx.font = "15px Amiga";
-			
-			function toggle(value){
+		
+			function countDown() {
+				console.log("countDown",cntdown);
+				ctx.clearRect (0, 0, canv.width, canv.height);
+				ctx.fillText (cntdown, size_x/2, size_y/2);
+				cntdown--;
+				if (cntdown < 0)
+				{
+					draw("game");
+				}
+				else
+				{
+					setTimeout(countDown, 1000);
+				}
+			}
+		
+			function toggle(value)
+			{
 				if (value=='YES')
 				{
 					value='NO';
@@ -102,29 +119,13 @@
 			
 			gameFinished = function(myGameState)
 			{
-				var myGameObj = myGameState.slice(0);;
-				//console.log("wins", playerObj[0].wins, playerObj[1].wins);
-				//console.log(playerObj[0].wins);
-				//for (var i=0; i< playerObj.length; i++)
-				//{
-					//console.log("wins in for 0", playerObj[0].wins);
-				//	playerObj[i].wins = myGameObj[i].wins;
-				//	playerObj[i].money = myGameObj[i].money;
-					
-				//}
-				//console.log("wins in for", playerObj[i].wins);
-
-				//console.log(playerObj[0].wins, playerObj[1].wins);
-				//$("#cr-stage").css("display","none");
-				//$("#myCanvas").css("display","block");
-				//draw("hallOfFame");
-				console.log("wins in playerObj", playerObj[0].wins, playerObj[1].wins);
-				console.log("wins in myGameObj", myGameObj[0].wins, myGameObj[1].wins);
-				
-				console.log("money in playerObj", playerObj[0].money, playerObj[1].money);
-				console.log("money in myGameObj", myGameObj[0].money, myGameObj[1].money);
+				for (var i=0; i< playerObj.length; i++)
+				{
+					playerObj[i].wins = myGameState[i].wins;
+					playerObj[i].money = myGameState[i].money;
+				}
+				draw("hallOfFame");
 			}
-			
 			
 			function drawShop(playerNr)
 			{
@@ -132,7 +133,7 @@
 				scene = "shop";
 				console.log("Loading scene:", scene, "for player", playerNr)
 				var y_line=1;
-				ctx.fillStyle = "blue";
+				//ctx.fillStyle = "blue";
 				ctx.clearRect (0, 0, canv.width, canv.height);
 					
 				for(var i=0;i < config.buyableExtras.length; i++)
@@ -159,10 +160,12 @@
 						
 					if (active_position===i) 
 					{
-						ctx.fillStyle = "red";
+						//ctx.fillStyle = "red";
+						//
+						ctx.fillStyle = "blue";
 						ctx.fillText (" > ", 70, 45*y_line);
 					};
-					ctx.fillStyle = "blue";
+					ctx.fillStyle = "";
 					ctx.fillText (config.buyableExtras[i].name, 120, 45*y_line);
 					ctx.drawImage(extras,config.buyableExtras[i].sx,config.buyableExtras[i].sy,config.buyableExtras[i].sw,config.buyableExtras[i].sh,300,41*y_line,config.buyableExtras[i].sw,config.buyableExtras[i].sh);
 					ctx.fillText (config.buyableExtras[i].prize, 370, 45*y_line);
@@ -183,29 +186,28 @@
 				{
 					ctx.clearRect (0, 0, canv.width, canv.height);
 					ctx.drawImage(creditsScreen,0,0,608,480);
-					//zeichne credits
 				}
-				if (scene ==="menu"){
+				if (scene === "menu")
+				{
 					var y_line=1;
-					ctx.fillStyle = "brown";
-					ctx.clearRect (0, 0, canv.width, canv.height);
-					
+					ctx.clearRect (0, 0, canv.width, canv.height);	
 					for(var i=0;i<config.menu.length; i++)
 					{
 						if (y_line == 1)
 						{
-							ctx.fillText ("MAIN MENU", 200, 35*y_line);
+							ctx.fillStyle = "#15527c";
+							ctx.fillText ("MAIN MENU", 220, 35*y_line);
 							y_line++;
-							ctx.fillText ("---------", 200, 35*y_line);			
+							ctx.fillText ("---------", 220, 35*y_line);			
 							y_line++;
 						}
 						
 						if (active_position===i) 
 						{
-							ctx.fillStyle = "red";
+							ctx.fillStyle = "blue";
 							ctx.fillText (" > ", 70, 35*y_line);
 						};
-						ctx.fillStyle = "brown";
+						ctx.fillStyle = "#15527c";
 						ctx.fillText (config.menu[i].text, 120, 35*y_line); 	
 						ctx.fillText (": " + config.menu[i].value, 380, 35*y_line); 
 						y_line++;
@@ -215,28 +217,25 @@
 				{
 					//sprites for players
 					var y_line=1;
-					ctx.fillStyle = "blue";
 					ctx.clearRect (0, 0, canv.width, canv.height);
 					
 					for(var i=0;i<playerObj.length; i++)
 					{
 						if (y_line == 1)
 						{
-							ctx.fillText ("CHOOSE PLAYER", 160, 35*y_line);
+							ctx.fillText ("CHOOSE PLAYER", 200, 35*y_line);
 							y_line++;
-							ctx.fillText ("---------", 200, 35*y_line);			
+							ctx.fillText ("---------", 230, 35*y_line);			
 							y_line++;
 						}
-						
 						if (active_position===i) 
 						{
-							ctx.fillStyle = "red";
+							ctx.fillStyle = "blue";
 							ctx.fillText (" > ", 70, 45*y_line);
 						};
-						ctx.fillStyle = "blue";
+						ctx.fillStyle = "#15527c";
 						ctx.fillText ("PLAYER " + (i+1), 120, 45*y_line);
 						ctx.fillText (": ", 300, 45*y_line);
-						
 						for(var k=0; k<config.player.length; k++)
 						{
 							if (playerObj[i].username===config.player[k].name)
@@ -249,55 +248,54 @@
 				}
 				if (scene === "shop")
 				{
-					//drawShop(playerNr)
+					drawShop(active_player)
 				}
 				if (scene === "countdown")
 				{
-					//cntdown animation
+					countDown();
 				}
 				if (scene === "game")
 				{
-					scene="game";
-					$("#myCanvas").css("display","none");
+					console.log("draw game");
 					$("#cr-stage").css("display","block");
-					startGame(playerObj, that);
+					$("#myCanvas").css("display","none");
+					scene="game";
+					var myGameObj = jQuery.extend(true,[], playerObj);
+					startGame(myGameObj, that);
 					//sprites for players
 				}
 				if (scene === "hallOfFame")
 				{
-					//sprites for players
-					var y_line=1;
-					ctx.fillStyle = "blue";
+					$("#cr-stage").css("display","none");
+					$("#myCanvas").css("display","block");
 					ctx.clearRect (0, 0, canv.width, canv.height);
+					var y_line=1;
 					
 					for(var i=0;i<playerObj.length; i++)
 					{
 						if (y_line == 1)
 						{
-							ctx.fillText ("HALL OF FAME", 160, 35*y_line);
+							ctx.fillText ("HALL OF FAME", 200, 35*y_line);
 							y_line++;
-							ctx.fillText ("---------", 200, 35*y_line);			
+							ctx.fillText ("---------", 220, 35*y_line);
 							y_line++;
 						}
-						
 						for(var k=0; k<config.player.length; k++)
 						{
 							if (playerObj[i].username===config.player[k].name)
 							{
-								ctx.drawImage(players,config.player[k].sx,config.player[k].sy,config.player[k].sw,config.player[k].sh,120,40*y_line,config.player[k].sw,config.player[k].sh);
+								ctx.drawImage(players,config.player[k].sx,config.player[k].sy,config.player[k].sw,config.player[k].sh,160,40*y_line,config.player[k].sw,config.player[k].sh);
 							}
-							ctx.fillText (": ", 200, 44*y_line);
-							ctx.fillStyle = "blue";
 							if (playerObj[i].wins > 0)
 							{
 								for (var j=0; j < playerObj[i].wins; j++)
 								{
 									//console.log(config.environmentExtras[0]);
-									ctx.drawImage(extras, config.environmentExtras[0].sx,config.environmentExtras[0].sy,config.environmentExtras[0].sw,config.environmentExtras[0].sh,250+(j*32),41*y_line,config.environmentExtras[0].sw,config.environmentExtras[0].sh);
-									//ctx.fillText ("t", 300+(j*32), 45*y_line);
+									ctx.drawImage(extras, config.environmentExtras[0].sx,config.environmentExtras[0].sy,config.environmentExtras[0].sw,config.environmentExtras[0].sh,220+(j*32),41*y_line,config.environmentExtras[0].sw,config.environmentExtras[0].sh);
+										//ctx.fillText ("t", 300+(j*32), 45*y_line);
 								}
 							}							
-						}
+						}	
 						y_line++;
 					}
 				}
@@ -322,7 +320,6 @@
 				{
 					if (event.which == 13) { //enter
 						active_position=0;
-						console.log("startGame");
 						draw("playerChoice");
 					}
 					else if (event.which == 37) { //left
@@ -375,15 +372,12 @@
 						}
 						draw("menu");
 					}
-					
 				}
-				else if (scene==="playerChoice")
+				else if (scene === "playerChoice")
 				{
 					if (event.which == 37) { //left
 						//Mark the current sprite as available;
-						
 						config.player[playerObj[active_position].spriteposition].taken = false;
-						
 						do
 						{
 							if(playerObj[active_position].spriteposition === 0)
@@ -398,12 +392,9 @@
 						while (config.player[playerObj[active_position].spriteposition].taken===true);
 						
 						playerObj[active_position].username = config.player[playerObj[active_position].spriteposition].name;
-						
 						config.player[playerObj[active_position].spriteposition].taken = true;
-					
 						draw("playerChoice");
 					}
-
 					else if (event.which == 38) { //up
 						if (active_position >0)
 						{
@@ -411,11 +402,9 @@
 						}
 						draw("playerChoice");
 					}
-					
 					else if (event.which == 39) { //right
 						//Mark the current sprite as available;
 						config.player[playerObj[active_position].spriteposition].taken = false;
-						
 						do
 						{
 							playerObj[active_position].spriteposition = (playerObj[active_position].spriteposition + 1) % config.player.length;
@@ -423,13 +412,9 @@
 						while (config.player[playerObj[active_position].spriteposition].taken===true);
 						
 						playerObj[active_position].username = config.player[playerObj[active_position].spriteposition].name;
-						
 						config.player[playerObj[active_position].spriteposition].taken = true;
-					
 						draw("playerChoice");
-						
 					}
-					
 					else if (event.which == 40) { //down
 						if (active_position < playerObj.length-1)
 						{
@@ -439,18 +424,9 @@
 					}
 					else if (event.which == 13) { //enter
 						//console.log("startGame");
-						draw("game");
+						draw("countdown");
 					};
-				}
-				else if (scene==="hallOfFame")
-				{
-					if (event.which == 13) { //enter
-						active_position=0;
-						console.log("startGame");
-						//draw("playerChoice");
-					}
-				}
-				
+				}				
 			});
 			
 			draw("start");
