@@ -111,6 +111,15 @@
 					}
 				}
 				return ret;
+			};
+			
+			function resetArray()
+			{
+				for (var i=0;i<playerObj.length;i++)
+				{
+					playerObj[i].wins=0;
+					playerObj[i].money=0;
+				}
 			}
 			function countDown() {
 				console.log("countDown",cntdown);
@@ -473,8 +482,10 @@
 					if (event.which == 13) { //enter
 						if (gameEnds())
 						{
+							resetArray();
 							console.log("ende");
 							console.log("resetVariables");
+							draw("menu");
 						}
 						else
 						{
