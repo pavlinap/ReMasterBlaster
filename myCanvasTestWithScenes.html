@@ -17,7 +17,7 @@
 		<canvas id="canv" width="608" height="480"></canvas>
 	</div>
 	<script>
-		window.onload = function () {
+		window.onload = function (){
 			//start crafty
 			that = this;
 			
@@ -30,8 +30,7 @@
 				{username:"POLICEMAN", spriteposition: 0,controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:true,wins:0},
 				{username:"DUKE", spriteposition: 1,controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0}
 			];
-			var config = 
-			{
+			var config = {
 				"menu":[
 					{text:"WINS NEEDED",value:3,min:3,max:9},
 					{text:"PLAYERS",value:2,min:2,max:2},
@@ -60,7 +59,7 @@
 					{name:"TIMEBOMB",sx:96,sy:160,sw:32,sh:32,prize:3,extrasname:"timeBomb"},
 					{name:"PROTECTION",sx:0,sy:192,sw:32,sh:32,prize:3,extrasname:"invinsible"},
 					{name:"SPEED-UP",sx:0,sy:160,sw:32,sh:32,prize:4,extrasname:"speed"}
-				],
+				]
 			};
 			
 			var extras=new Image();
@@ -83,13 +82,10 @@
 			var ctx = canv.getContext ("2d");
 			ctx.font = "15px Amiga";
 		
-			function getNextActivePlayer(x)
-			{
+			function getNextActivePlayer(x){
 				var ret=-1
-				for (var i=x; i<playerObj.length; i++)
-				{
-					if (playerObj[i].money>0)
-					{
+				for (var i=x; i<playerObj.length; i++){
+					if (playerObj[i].money>0){
 						console.log("retrun", i);
 						ret=i;
 						break;
@@ -98,13 +94,10 @@
 				return ret;
 			};
 			
-			function gameEnds()
-			{
+			function gameEnds(){
 				var ret=false;
-				for (var i=0;i<playerObj.length;i++)
-				{
-					if (playerObj[i].wins === config.menu[0].value)
-					{
+				for (var i=0;i<playerObj.length;i++){
+					if (playerObj[i].wins === config.menu[0].value){
 						console.log("enough gametime");
 						ret=true
 						break;
@@ -113,67 +106,50 @@
 				return ret;
 			};
 			
-			function resetArray()
-			{
-				for (var i=0;i<playerObj.length;i++)
-				{
+			function resetArray(){
+				for (var i=0;i<playerObj.length;i++){
 					playerObj[i].wins=0;
 					playerObj[i].money=0;
 				}
 			}
-			function countDown() {
+			function countDown(){
 				console.log("countDown",cntdown);
 				ctx.clearRect (0, 0, canv.width, canv.height);
 				ctx.fillText (cntdown, size_x/2, size_y/2);
 				cntdown--;
-				if (cntdown < 0)
-				{
+				if (cntdown < 0){
 					draw("game");
-				}
-				else
-				{
+				}else{
 					setTimeout(countDown, 1000);
 				}
 			};
 		
-			function toggle(value)
-			{
-				if (value=='YES')
-				{
+			function toggle(value){
+				if (value=='YES'){
 					value='NO';
-				}else if(value=='NO')
-				{
+				}else if(value=='NO'){
 					value='YES';
-				}else if(value=='ON')
-				{
+				}else if(value=='ON'){
 					value='OFF';
-				}
-				else if(value=='OFF')
-				{
+				}else if(value=='OFF'){
 					value='ON';
 				}
 				return value;
 			};
 			
-			gameFinished = function(myGameState)
-			{
-				for (var i=0; i< playerObj.length; i++)
-				{
+			gameFinished = function(myGameState){
+				for (var i=0; i< playerObj.length; i++){
 					playerObj[i].wins = myGameState[i].wins;
 					playerObj[i].money = myGameState[i].money;
 				}
 				draw("hallOfFame");
 			};
 			
-			function drawShop(playerNr)
-			{
-				if (playerNr===-1)
-				{
+			function drawShop(playerNr){
+				if (playerNr===-1){
 					active_player=0;
 					draw("countdown");
-				}
-				else
-				{
+				}else{
 					active_player = playerNr;
 					scene = "shop";
 					var y_line=1;
@@ -181,18 +157,14 @@
 					ctx.fillStyle = "blue";
 					ctx.clearRect (0, 0, canv.width, canv.height);
 					
-					for(var i=0;i < config.buyableExtras.length; i++)
-					{
-						if (y_line == 1)
-						{
+					for(var i=0;i < config.buyableExtras.length; i++){
+						if (y_line == 1){
 							ctx.fillText (playerObj[active_player].username + " ENTERS SHOP", 100, 35*y_line);
 							y_line++;
 								
-							if (playerObj[active_player].money > 0)
-							{
+							if (playerObj[active_player].money > 0){
 								ctx.fillText ("MONEY:", 50, 45*y_line);
-								for (var j=0; j < playerObj[active_player].money; j++)
-								{
+								for (var j=0; j < playerObj[active_player].money; j++){
 									ctx.drawImage(extras,config.environmentExtras[1].sx,config.environmentExtras[1].sy,config.environmentExtras[1].sw,config.environmentExtras[1].sh,150+(j*32),35*y_line,config.environmentExtras[1].sw,config.environmentExtras[1].sh);
 									//ctx.fillText ("t", 300+(j*32), 45*y_line);
 								}
@@ -203,8 +175,7 @@
 							y_line++;
 						}
 							
-						if (active_position===i) 
-						{
+						if (active_position===i){
 							ctx.fillStyle = "red";
 							ctx.fillText (" > ", 70, 45*y_line);
 						};
@@ -214,8 +185,7 @@
 						ctx.fillText(config.buyableExtras[i].prize, 370, 45*y_line);
 						y_line++;
 					}
-					if (active_position===config.buyableExtras.length) 
-					{
+					if (active_position===config.buyableExtras.length){
 						ctx.fillStyle = "red";
 						ctx.fillText (" > ", 200, 45*y_line);
 					};
@@ -223,27 +193,21 @@
 				}
 			}
 			
-			function draw(x)
-			{
+			function draw(x){
 				scene=x;
 				console.log("Loaging scene:",scene);
-				if (scene === "start")
-				{
+				if (scene === "start"){
 					ctx.drawImage(startScreen,0,0,608,480);
 				}
-				if (scene === "credits")
-				{
+				if (scene === "credits"){
 					ctx.clearRect (0, 0, canv.width, canv.height);
 					ctx.drawImage(creditsScreen,0,0,608,480);
 				}
-				if (scene === "menu")
-				{
+				if (scene === "menu"){
 					var y_line=1;
 					ctx.clearRect (0, 0, canv.width, canv.height);	
-					for(var i=0;i<config.menu.length; i++)
-					{
-						if (y_line == 1)
-						{
+					for(var i=0;i<config.menu.length; i++){
+						if (y_line == 1){
 							ctx.fillStyle = "#15527c";
 							ctx.fillText ("MAIN MENU", 220, 35*y_line);
 							y_line++;
@@ -251,8 +215,7 @@
 							y_line++;
 						}
 						
-						if (active_position===i) 
-						{
+						if (active_position===i){
 							ctx.fillStyle = "blue";
 							ctx.fillText (" > ", 70, 35*y_line);
 						};
@@ -262,49 +225,40 @@
 						y_line++;
 					}
 				}
-				if (scene === "playerChoice")
-				{
+				if (scene === "playerChoice"){
 					//sprites for players
 					var y_line=1;
 					ctx.clearRect (0, 0, canv.width, canv.height);
 					
-					for(var i=0;i<playerObj.length; i++)
-					{
-						if (y_line == 1)
-						{
+					for(var i=0;i<playerObj.length; i++){
+						if (y_line == 1){
 							ctx.fillText ("CHOOSE PLAYER", 200, 35*y_line);
 							y_line++;
 							ctx.fillText ("---------", 230, 35*y_line);			
 							y_line++;
 						}
-						if (active_position===i) 
-						{
+						if (active_position===i){
 							ctx.fillStyle = "blue";
 							ctx.fillText (" > ", 70, 45*y_line);
 						};
 						ctx.fillStyle = "#15527c";
 						ctx.fillText ("PLAYER " + (i+1), 120, 45*y_line);
 						ctx.fillText (": ", 300, 45*y_line);
-						for(var k=0; k<config.player.length; k++)
-						{
-							if (playerObj[i].username===config.player[k].name)
-							{
+						for(var k=0; k<config.player.length; k++){
+							if (playerObj[i].username===config.player[k].name){
 								ctx.drawImage(players,config.player[k].sx,config.player[k].sy,config.player[k].sw,config.player[k].sh,320,38*y_line,config.player[k].sw,config.player[k].sh);
 							}
 						}
 						y_line++;
 					}
 				}
-				if (scene === "shop")
-				{
+				if (scene === "shop"){
 					//drawShop(getNextActivePlayer(0));
 				}
-				if (scene === "countdown")
-				{
+				if (scene === "countdown"){
 					countDown();
 				}
-				if (scene === "game")
-				{
+				if (scene === "game"){
 					cntdown=3;
 					console.log("draw game");
 					$("#cr-stage").css("display","block");
@@ -314,32 +268,25 @@
 					startGame(myGameObj, that);
 					//sprites for players
 				}
-				if (scene === "hallOfFame")
-				{
+				if (scene === "hallOfFame"){
 					$("#cr-stage").css("display","none");
 					$("#myCanvas").css("display","block");
 					ctx.clearRect (0, 0, canv.width, canv.height);
 					var y_line=1;
 					
-					for(var i=0;i<playerObj.length; i++)
-					{
-						if (y_line == 1)
-						{
+					for(var i=0;i<playerObj.length; i++){
+						if (y_line == 1){
 							ctx.fillText ("HALL OF FAME", 200, 35*y_line);
 							y_line++;
 							ctx.fillText ("---------", 220, 35*y_line);
 							y_line++;
 						}
-						for(var k=0; k<config.player.length; k++)
-						{
-							if (playerObj[i].username===config.player[k].name)
-							{
+						for(var k=0; k<config.player.length; k++){
+							if (playerObj[i].username===config.player[k].name){
 								ctx.drawImage(players,config.player[k].sx,config.player[k].sy,config.player[k].sw,config.player[k].sh,160,40*y_line,config.player[k].sw,config.player[k].sh);
 							}
-							if (playerObj[i].wins > 0)
-							{
-								for (var j=0; j < playerObj[i].wins; j++)
-								{
+							if (playerObj[i].wins > 0){
+								for (var j=0; j < playerObj[i].wins; j++){
 									//console.log(config.environmentExtras[0]);
 									ctx.drawImage(extras, config.environmentExtras[0].sx,config.environmentExtras[0].sy,config.environmentExtras[0].sw,config.environmentExtras[0].sh,220+(j*32),41*y_line,config.environmentExtras[0].sw,config.environmentExtras[0].sh);
 										//ctx.fillText ("t", 300+(j*32), 45*y_line);
@@ -352,90 +299,59 @@
 			};
 			
 			$(document).keydown(function(event){
-				if (scene === "start")
-				{
-					if (event.which === 13)
-					{
+				if (scene === "start"){
+					if (event.which === 13){
 						draw("credits");
 					}
-				}
-				else if (scene === "credits")
-				{
-					if (event.which === 13)
-					{
+				}else if (scene === "credits"){
+					if (event.which === 13){
 						draw("menu");
 					}
-				}
-				else if (scene === "menu")
-				{
-					if (event.which == 13) { //enter
+				}else if (scene === "menu"){
+					if (event.which == 13){ //enter
 						active_position=0;
 						draw("playerChoice");
-					}
-					else if (event.which == 37) { //left
-						if (active_position > 1)
-						{
+					}else if (event.which == 37){ //left
+						if (active_position > 1){
 							config.menu[active_position].value = toggle(config.menu[active_position].value);
-						}
-						else
-						{
-							if (config.menu[active_position].value > config.menu[active_position].min)
-							{
+						}else{
+							if (config.menu[active_position].value > config.menu[active_position].min){
 								config.menu[active_position].value--;
-							}
-							else
-							{
+							}else{
 								config.menu[active_position].value = config.menu[active_position].max;
 							}
 						}
 						draw("menu");
-					}
-					else if (event.which == 38) { //up
-						if (active_position >0)
-						{
+					}else if (event.which == 38){ //up
+						if (active_position >0){
 							active_position--;
 						}
 						draw("menu");
-					}
-					else if (event.which == 39) { //right
-						if (active_position > 1)
-						{
+					}else if (event.which == 39){ //right
+						if (active_position > 1){
 							config.menu[active_position].value = toggle(config.menu[active_position].value);
-						}
-						else
-						{
-							if (config.menu[active_position].value < config.menu[active_position].max)
-							{
+						}else{
+							if (config.menu[active_position].value < config.menu[active_position].max){
 								config.menu[active_position].value++;
-							}
-							else
-							{
+							}else{
 								config.menu[active_position].value = config.menu[active_position].min;
 							}
 						}
 						draw("menu");
-					}
-					else if (event.which == 40) { //down
-						if (active_position <config.menu.length-1)
-						{
+					}else if (event.which == 40){ //down
+						if (active_position <config.menu.length-1){
 							active_position++;
 						}
 						draw("menu");
 					}
-				}
-				else if (scene === "playerChoice")
-				{
-					if (event.which == 37) { //left
+				}else if (scene === "playerChoice"){
+					if (event.which == 37){ //left
 						//Mark the current sprite as available;
 						config.player[playerObj[active_position].spriteposition].taken = false;
-						do
-						{
-							if(playerObj[active_position].spriteposition === 0)
-							{
+						do{
+							if(playerObj[active_position].spriteposition === 0){
 								playerObj[active_position].spriteposition = config.player.length - 1;
-							}
-							else
-							{
+							}else{
 								playerObj[active_position].spriteposition--;
 							}
 						}
@@ -444,19 +360,15 @@
 						playerObj[active_position].username = config.player[playerObj[active_position].spriteposition].name;
 						config.player[playerObj[active_position].spriteposition].taken = true;
 						draw("playerChoice");
-					}
-					else if (event.which == 38) { //up
-						if (active_position >0)
-						{
+					}else if (event.which == 38){ //up
+						if (active_position >0){
 							active_position--;
 						}
 						draw("playerChoice");
-					}
-					else if (event.which == 39) { //right
+					}else if (event.which == 39){ //right
 						//Mark the current sprite as available;
 						config.player[playerObj[active_position].spriteposition].taken = false;
-						do
-						{
+						do{
 							playerObj[active_position].spriteposition = (playerObj[active_position].spriteposition + 1) % config.player.length;
 						}
 						while (config.player[playerObj[active_position].spriteposition].taken===true);
@@ -464,108 +376,76 @@
 						playerObj[active_position].username = config.player[playerObj[active_position].spriteposition].name;
 						config.player[playerObj[active_position].spriteposition].taken = true;
 						draw("playerChoice");
-					}
-					else if (event.which == 40) { //down
-						if (active_position < playerObj.length-1)
-						{
+					}else if (event.which == 40){ //down
+						if (active_position < playerObj.length-1){
 							active_position++;
 						}
 						draw("playerChoice");
-					}
-					else if (event.which == 13) { //enter
+					}else if (event.which == 13){ //enter
 						//console.log("startGame");
 						draw("countdown");
 					};
-				}
-				else if(scene==="hallOfFame")
-				{
-					if (event.which == 13) { //enter
-						if (gameEnds())
-						{
+				}else if(scene==="hallOfFame"){
+					if (event.which == 13){ //enter
+						if (gameEnds()){
 							resetArray();
 							console.log("ende");
 							console.log("resetVariables");
 							draw("menu");
-						}
-						else
-						{
+						}else{
 							console.log("nextRound");
 							drawShop(getNextActivePlayer(0));
 						}
 					};
-				}
-				else if (scene==="shop")
-				{
-					if (event.which === playerObj[active_player].controls.bomb)
-					{ //enter
-						if (active_position<config.buyableExtras.length) 
-						{
-							if (playerObj[active_player].money >= config.buyableExtras[active_position].prize)
-							{
+				}else if (scene==="shop"){
+					if (event.which === playerObj[active_player].controls.bomb){ //enter
+						if (active_position<config.buyableExtras.length){
+							if (playerObj[active_player].money >= config.buyableExtras[active_position].prize){
 								playerObj[active_player].money = playerObj[active_player].money - config.buyableExtras[active_position].prize;
 								
-								if (config.buyableExtras[active_position].name==="EXTRA BOMB")
-								{
+								if (config.buyableExtras[active_position].name==="EXTRA BOMB"){
 									playerObj[active_player].maxBombs++;
 								}
-								if (config.buyableExtras[active_position].name==="POWER-UP")
-								{
+								if (config.buyableExtras[active_position].name==="POWER-UP"){
 									playerObj[active_player].fireRange++;
 								}
-								if (config.buyableExtras[active_position].name==="TIMEBOMB")
-								{
+								if (config.buyableExtras[active_position].name==="TIMEBOMB"){
 									playerObj[active_player].timeBomb = true;
 								}
-								if (config.buyableExtras[active_position].name==="POWER-UP")
-								{
+								if (config.buyableExtras[active_position].name==="POWER-UP"){
 									playerObj[active_player].invinsible = true;
 								}
-								if (config.buyableExtras[active_position].name==="SPEED-UP")
-								{
+								if (config.buyableExtras[active_position].name==="SPEED-UP"){
 									playerObj[active_player].speed = playerObj[active_player].speed + 0.5;
 								}
 								console.log("geld reicht");
 								//drawShop(active_player);
-							}
-							else if(playerObj[active_player].money === 0)
-							{
+							}else if(playerObj[active_player].money === 0){
 								console.log("not enough");
 								//playSound("burb");
 								//active_player++;
 							}
-						}
-						else{
+						}else{
 							console.log("exit");
-							if (active_player < playerObj.length-1)
-							{
+							if (active_player < playerObj.length-1){
 								active_player++;
 								console.log(getNextActivePlayer(active_player));
 								drawShop(getNextActivePlayer(active_player));
-							}
-							else
-							{
+							}else{
 								console.log("draw otherstuff");
 								draw("countdown");
 							}
-							//console.log(getNextActivePlayer(active_player+1));
-							
 						};
 						//console.log("enter");
 						drawShop(active_player);
-					}
-					else if (event.which === playerObj[active_player].controls.up)
-					{ //up
-						if (active_position >0)
-						{
+					}else if (event.which === playerObj[active_player].controls.up){ //up
+						if (active_position >0){
 							active_position--;
 						}
 						console.log("up");
 						drawShop(active_player);
-					}
-					else if (event.which === playerObj[active_player].controls.down)
-					{ //down
-						if (active_position < config.buyableExtras.length)
-						{
+					}else if (event.which === playerObj[active_player].controls.down){ //down
+						if (active_position < config.buyableExtras.length){
 							active_position++;
 						}
 						console.log("down");
