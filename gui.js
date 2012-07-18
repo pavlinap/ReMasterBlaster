@@ -5,9 +5,9 @@ function generateUi(playerObj, config)
 	var refPlayerObj=[
 		{username:"POLICEMAN", spriteposition: 0,controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
 		{username:"DUKE", spriteposition: 1,controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
-		{username:"DETECTIVE", spriteposition: 1,controls:{left:49,right:51,up:52,down:50,bomb:53},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
-		{username:"GREEN", spriteposition: 1,controls:{left:54,right:56,up:57,down:55,bomb:48},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
-		{username:"CHINESE", spriteposition: 1,controls:{left:74,right:76,up:73,down:75,bomb:77},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0}
+		{username:"DETECTIVE", spriteposition: 2,controls:{left:49,right:51,up:52,down:50,bomb:53},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
+		{username:"GREEN", spriteposition: 3,controls:{left:54,right:56,up:57,down:55,bomb:48},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
+		{username:"CHINESE", spriteposition: 4,controls:{left:74,right:76,up:73,down:75,bomb:77},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0}
 	];
 	var playerObj=[];
 	var config = {
@@ -44,7 +44,7 @@ function generateUi(playerObj, config)
 			
 	var size_x=608;
 	var size_y=480;
-	var scene="";
+	scene="";
 	var cntdown=3;
 	
 	var extras=new Image();
@@ -70,18 +70,15 @@ function generateUi(playerObj, config)
 	function generatePlayerobj(x)
 	{
 		for (var i=0; i<x; i++){
-			//console.log(refPlayerObj[i]);
 			playerObj[i]=refPlayerObj[i];
 			config.player[playerObj[i].spriteposition].taken = true;
 		}
-		//console.log(config.player);
 	}
 	
 	function getNextActivePlayer(x){
 		var ret=-1
 		for (var i=x; i<playerObj.length; i++){
 			if (playerObj[i].money>0){
-				console.log("retrun", i);
 				ret=i;
 				break;
 			}
@@ -196,7 +193,6 @@ function generateUi(playerObj, config)
 	
 	function draw(x){
 		scene=x;
-		console.log("Loaging scene:",scene);
 		if (scene === "start"){
 			ctx.drawImage(startScreen,0,0,608,480);
 		}
@@ -314,10 +310,6 @@ function generateUi(playerObj, config)
 			if (event.which == playerObj[0].controls.bomb){ //enter
 				active_position=0;
 				generatePlayerobj(config.menu[1].value);
-				/*for(var i=0;i<playerObj.length; i++)
-				{
-					console.log("player sprite is taken?:", config.player[playerObj[active_position].spriteposition].taken);
-				}*/
 				draw("playerChoice");
 			}
 			else if (event.which == playerObj[0].controls.left){ //left
@@ -365,7 +357,6 @@ function generateUi(playerObj, config)
 			if (event.which == playerObj[0].controls.left){ //left
 				//Mark the current sprite as available;
 				config.player[playerObj[active_position].spriteposition].taken = false;
-				
 				do{
 					if(playerObj[active_position].spriteposition === 0){
 						playerObj[active_position].spriteposition = config.player.length - 1;
@@ -457,7 +448,7 @@ function generateUi(playerObj, config)
 					console.log("exit");
 					if (active_player < playerObj.length-1){
 						active_player++;
-						console.log(getNextActivePlayer(active_player));
+						//console.log(getNextActivePlayer(active_player));
 						drawShop(getNextActivePlayer(active_player));
 					}
 					else{
