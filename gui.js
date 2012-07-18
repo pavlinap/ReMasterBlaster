@@ -406,7 +406,7 @@ function generateUi(playerObj, config)
 			}
 			else if (event.which == playerObj[0].controls.bomb){ //enter
 				//console.log("startGame");
-				//draw("countdown");
+				draw("countdown");
 			};
 		}
 		else if(scene==="hallOfFame"){
