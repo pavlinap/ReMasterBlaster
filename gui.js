@@ -1,12 +1,51 @@
-function generateUi(refPlayerObj, config)
+function generateUi(playerObj, config)
 {
-	that = this;
+	var that = this;
+	
+	var refPlayerObj=[
+		{username:"POLICEMAN", spriteposition: 0,controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
+		{username:"DUKE", spriteposition: 1,controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
+		{username:"DETECTIVE", spriteposition: 1,controls:{left:49,right:51,up:52,down:50,bomb:53},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
+		{username:"GREEN", spriteposition: 1,controls:{left:54,right:56,up:57,down:55,bomb:48},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
+		{username:"CHINESE", spriteposition: 1,controls:{left:74,right:76,up:73,down:75,bomb:77},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0}
+	];
+	var playerObj=[];
+	var config = {
+		"menu":[
+			{text:"WINS NEEDED",value:3,min:3,max:9},
+			{text:"PLAYERS",value:2,min:2,max:5},
+			{text:"SHOP",value:"ON"},
+			{text:"SHRINKING",value:"OFF"},
+			{text:"FASTIGNITION",value:"ON"},
+			{text:"STARTMONEY",value:"OFF"},
+			{text:"NORMALLEVEL",value:"YES"},
+			{text:"GAMBLING",value:"YES"}
+		],
+		"player":[
+			{name:"POLICEMAN",taken:false,sx:0,sy:0,sw:32,sh:44},
+			{name:"DUKE",taken:false,sx:0,sy:132,sw:32,sh:44},
+			{name:"DETECTIVE",taken:false,sx:0,sy:264,sw:32,sh:44},
+			{name:"GREEN",taken:false,sx:0,sy:396,sw:32,sh:44},
+			{name:"CHINESE",taken:false,sx:0,sy:528,sw:32,sh:44},
+			{name:"MICHA",taken:false,sx:0,sy:660,sw:32,sh:44}
+		],
+		"environmentExtras":[
+			{name:"throphy",sx:64,sy:224,sw:32,sh:32},
+			{name:"money",sx:32,sy:224,sw:32,sh:32}
+		],
+		"buyableExtras":[
+			{name:"EXTRA BOMB",sx:32,sy:160,sw:32,sh:32,prize:1,extrasname:"maxBombs"}, 
+			{name:"POWER-UP",sx:64,sy:160,sw:32,sh:32,prize:1,extrasname:"fireRange"},
+			{name:"TIMEBOMB",sx:96,sy:160,sw:32,sh:32,prize:3,extrasname:"timeBomb"},
+			{name:"PROTECTION",sx:0,sy:192,sw:32,sh:32,prize:3,extrasname:"invinsible"},
+			{name:"SPEED-UP",sx:0,sy:160,sw:32,sh:32,prize:4,extrasname:"speed"}
+		]
+			};
+			
 	var size_x=608;
 	var size_y=480;
 	var scene="";
 	var cntdown=3;
-	
-	var playerObj=[];
 	
 	var extras=new Image();
 	extras.src="img/sprites.png";
@@ -31,9 +70,11 @@ function generateUi(refPlayerObj, config)
 	function generatePlayerobj(x)
 	{
 		for (var i=0; i<x; i++){
-			console.log(refPlayerObj[i]);
+			//console.log(refPlayerObj[i]);
 			playerObj[i]=refPlayerObj[i];
+			config.player[playerObj[i].spriteposition].taken = true;
 		}
+		//console.log(config.player);
 	}
 	
 	function getNextActivePlayer(x){
@@ -74,7 +115,8 @@ function generateUi(refPlayerObj, config)
 		cntdown--;
 		if (cntdown < 0){
 			draw("game");
-		}else{
+		}
+		else{
 			setTimeout(countDown, 1000);
 		}
 	};
@@ -82,11 +124,14 @@ function generateUi(refPlayerObj, config)
 	function toggle(value){
 		if (value=='YES'){
 			value='NO';
-		}else if(value=='NO'){
+		}
+		else if(value=='NO'){
 			value='YES';
-		}else if(value=='ON'){
+		}
+		else if(value=='ON'){
 			value='OFF';
-		}else if(value=='OFF'){
+		}
+		else if(value=='OFF'){
 			value='ON';
 		}
 		return value;
@@ -104,7 +149,8 @@ function generateUi(refPlayerObj, config)
 		if (playerNr===-1){
 			active_player=0;
 			draw("countdown");
-		}else{
+		}
+		else{
 			active_player = playerNr;
 			scene = "shop";
 			var y_line=1;
@@ -197,7 +243,7 @@ function generateUi(refPlayerObj, config)
 				};
 				ctx.fillStyle = "#15527c";
 				ctx.fillText ("PLAYER " + (i+1), 120, 45*y_line);
-				ctx.fillText (": ", 300, 45*y_line);
+				//ctx.fillText (": ", 300, 45*y_line);
 				for(var k=0; k<config.player.length; k++){
 					if (playerObj[i].username===config.player[k].name){
 						ctx.drawImage(players,config.player[k].sx,config.player[k].sy,config.player[k].sw,config.player[k].sh,320,38*y_line,config.player[k].sw,config.player[k].sh);
@@ -205,6 +251,7 @@ function generateUi(refPlayerObj, config)
 				}
 				y_line++;
 			}
+			//console.log("PlayerConfig")
 		}
 		if (scene === "shop"){
 			//drawShop(getNextActivePlayer(0));
@@ -251,62 +298,79 @@ function generateUi(refPlayerObj, config)
 			}
 		}
 	};
-			
+	
 	$(document).keydown(function(event){
 		if (scene === "start"){
 			if (event.which === playerObj[0].controls.bomb){
 				draw("credits");
 			}
-		}else if (scene === "credits"){
+		}
+		else if (scene === "credits"){
 			if (event.which === playerObj[0].controls.bomb){
 				draw("menu");
 			}
-		}else if (scene === "menu"){
+		}
+		else if (scene === "menu"){
 			if (event.which == playerObj[0].controls.bomb){ //enter
 				active_position=0;
 				generatePlayerobj(config.menu[1].value);
+				/*for(var i=0;i<playerObj.length; i++)
+				{
+					console.log("player sprite is taken?:", config.player[playerObj[active_position].spriteposition].taken);
+				}*/
 				draw("playerChoice");
-			}else if (event.which == playerObj[0].controls.left){ //left
+			}
+			else if (event.which == playerObj[0].controls.left){ //left
 				if (active_position > 1){
 					config.menu[active_position].value = toggle(config.menu[active_position].value);
-				}else{
+				}
+				else{
 					if (config.menu[active_position].value > config.menu[active_position].min){
 						config.menu[active_position].value--;
-					}else{
+					}
+					else{
 						config.menu[active_position].value = config.menu[active_position].max;
 					}
 				}
 				draw("menu");
-			}else if (event.which == playerObj[0].controls.up){ //up
+			}
+			else if (event.which == playerObj[0].controls.up){ //up
 				if (active_position >0){
 					active_position--;
 				}
 				draw("menu");
-			}else if (event.which == playerObj[0].controls.right){ //right
+			}
+			else if (event.which == playerObj[0].controls.right){ //right
 				if (active_position > 1){
 					config.menu[active_position].value = toggle(config.menu[active_position].value);
-				}else{
+				}
+				else{
 					if (config.menu[active_position].value < config.menu[active_position].max){
 						config.menu[active_position].value++;
-					}else{
+					}
+					else{
 						config.menu[active_position].value = config.menu[active_position].min;
 					}
 				}
 				draw("menu");
-			}else if (event.which == playerObj[0].controls.down){ //down
+			}
+			else if (event.which == playerObj[0].controls.down){ //down
 				if (active_position <config.menu.length-1){
 					active_position++;
 				}
 				draw("menu");
 			}
-		}else if (scene === "playerChoice"){
+		}
+		else if (scene === "playerChoice"){
 			if (event.which == playerObj[0].controls.left){ //left
 				//Mark the current sprite as available;
 				config.player[playerObj[active_position].spriteposition].taken = false;
+				
 				do{
 					if(playerObj[active_position].spriteposition === 0){
 						playerObj[active_position].spriteposition = config.player.length - 1;
-					}else{
+					}
+					else{
 						playerObj[active_position].spriteposition--;
 					}
 				}
@@ -315,12 +379,14 @@ function generateUi(refPlayerObj, config)
 				playerObj[active_position].username = config.player[playerObj[active_position].spriteposition].name;
 				config.player[playerObj[active_position].spriteposition].taken = true;
 				draw("playerChoice");
-			}else if (event.which == playerObj[0].controls.up){ //up
+			}
+			else if (event.which == playerObj[0].controls.up){ //up
 				if (active_position >0){
 					active_position--;
 				}
 				draw("playerChoice");
-			}else if (event.which == playerObj[0].controls.right){ //right
+			}
+			else if (event.which == playerObj[0].controls.right){ //right
 				//Mark the current sprite as available;
 				config.player[playerObj[active_position].spriteposition].taken = false;
 				do{
@@ -331,28 +397,33 @@ function generateUi(refPlayerObj, config)
 				playerObj[active_position].username = config.player[playerObj[active_position].spriteposition].name;
 				config.player[playerObj[active_position].spriteposition].taken = true;
 				draw("playerChoice");
-			}else if (event.which == playerObj[0].controls.down){ //down
+			}
+			else if (event.which == playerObj[0].controls.down){ //down
 				if (active_position < playerObj.length-1){
 					active_position++;
 				}
 				draw("playerChoice");
-			}else if (event.which == playerObj[0].controls.bomb){ //enter
+			}
+			else if (event.which == playerObj[0].controls.bomb){ //enter
 				//console.log("startGame");
-				draw("countdown");
+				//draw("countdown");
 			};
-		}else if(scene==="hallOfFame"){
+		}
+		else if(scene==="hallOfFame"){
 			if (event.which == playerObj[0].controls.bomb){ //enter
 				if (gameEnds()){
 					resetArray();
 					console.log("ende");
 					console.log("resetVariables");
 					draw("menu");
-				}else{
+				}
+				else{
 					console.log("nextRound");
 					drawShop(getNextActivePlayer(0));
 				}
 			};
-		}else if (scene==="shop"){
+		}
+		else if (scene==="shop"){
 			if (event.which === playerObj[active_player].controls.bomb){ //enter
 				if (active_position<config.buyableExtras.length){
 					if (playerObj[active_player].money >= config.buyableExtras[active_position].prize){
@@ -375,31 +446,36 @@ function generateUi(refPlayerObj, config)
 						}
 						console.log("geld reicht");
 						//drawShop(active_player);
-					}else if(playerObj[active_player].money === 0){
+					}
+					else if(playerObj[active_player].money === 0){
 						console.log("not enough");
 						//playSound("burb");
 						//active_player++;
 					}
-				}else{
+				}
+				else{
 					console.log("exit");
 					if (active_player < playerObj.length-1){
 						active_player++;
 						console.log(getNextActivePlayer(active_player));
 						drawShop(getNextActivePlayer(active_player));
-					}else{
+					}
+					else{
 						console.log("draw otherstuff");
 						draw("countdown");
 					}
 				};
 				//console.log("enter");
 				drawShop(active_player);
-			}else if (event.which === playerObj[active_player].controls.up){ //up
+			}
+			else if (event.which === playerObj[active_player].controls.up){ //up
 				if (active_position >0){
 					active_position--;
 				}
 				console.log("up");
 				drawShop(active_player);
-			}else if (event.which === playerObj[active_player].controls.down){ //down
+			}
+			else if (event.which === playerObj[active_player].controls.down){ //down
 				if (active_position < config.buyableExtras.length){
 					active_position++;
 				}
@@ -408,6 +484,6 @@ function generateUi(refPlayerObj, config)
 			}
 		}
 	});
-	generatePlayerobj(2);
+	generatePlayerobj(1);
 	draw("start");
 }
