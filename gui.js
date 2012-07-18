@@ -40,7 +40,7 @@ function generateUi(playerObj, config)
 			{name:"PROTECTION",sx:0,sy:192,sw:32,sh:32,prize:3,extrasname:"invinsible"},
 			{name:"SPEED-UP",sx:0,sy:160,sw:32,sh:32,prize:4,extrasname:"speed"}
 		]
-			};
+	};
 			
 	var size_x=608;
 	var size_y=480;
@@ -228,6 +228,7 @@ function generateUi(playerObj, config)
 					
 			for(var i=0;i<playerObj.length; i++){
 				if (y_line == 1){
+					ctx.fillStyle = "blue";
 					ctx.fillText ("CHOOSE PLAYER", 200, 35*y_line);
 					y_line++;
 					ctx.fillText ("---------", 230, 35*y_line);			
@@ -273,6 +274,7 @@ function generateUi(playerObj, config)
 					
 			for(var i=0;i<playerObj.length; i++){
 				if (y_line == 1){
+					ctx.fillStyle = "blue";
 					ctx.fillText ("HALL OF FAME", 200, 35*y_line);
 					y_line++;
 					ctx.fillText ("---------", 220, 35*y_line);
@@ -419,7 +421,7 @@ function generateUi(playerObj, config)
 				if (active_position<config.buyableExtras.length){
 					if (playerObj[active_player].money >= config.buyableExtras[active_position].prize){
 						playerObj[active_player].money = playerObj[active_player].money - config.buyableExtras[active_position].prize;
-								
+						
 						if (config.buyableExtras[active_position].name==="EXTRA BOMB"){
 							playerObj[active_player].maxBombs++;
 						}
@@ -438,10 +440,10 @@ function generateUi(playerObj, config)
 						console.log("geld reicht");
 						//drawShop(active_player);
 					}
-					else if(playerObj[active_player].money === 0){
+					if(playerObj[active_player].money === 0){
 						console.log("not enough");
 						//playSound("burb");
-						active_player++;
+						drawShop(active_player);
 					}
 				}
 				else{
