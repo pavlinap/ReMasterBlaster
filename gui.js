@@ -1,7 +1,6 @@
 function generateUi(imgs)
 {
 	var that = this;
-	
 	var refPlayerObj=[
 		{username:"POLICEMAN", spriteposition: 0,controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
 		{username:"DUKE", spriteposition: 1,controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
@@ -60,6 +59,9 @@ function generateUi(imgs)
 	var canv = document.getElementById ("canv");
 	var ctx = canv.getContext ("2d");
 	ctx.font = "15px Amiga";
+	
+	var cash = new Audio("sounds/cash.mp3");
+	var burp = new Audio("sounds/burp.mp3");
 	
 	function generatePlayerobj(x)
 	{
@@ -427,6 +429,7 @@ function generateUi(imgs)
 				if (active_position<config.buyableExtras.length){
 					if (playerObj[active_player].money >= config.buyableExtras[active_position].prize){
 						playerObj[active_player].money = playerObj[active_player].money - config.buyableExtras[active_position].prize;
+						cash.play();
 						if (config.buyableExtras[active_position].name==="EXTRA BOMB"){
 							playerObj[active_player].maxBombs++;
 						}
@@ -445,10 +448,12 @@ function generateUi(imgs)
 						console.log("geld reicht");
 						//drawShop(active_player);
 					}
-					if(playerObj[active_player].money === 0){
-						console.log("not enough");
+					else {
+						burp.play();
+					}
+					if (playerObj[active_player].money === 0){
+						console.log("geld alle, naechste spieler");
 						active_player++;
-						//playSound("burb");
 						//drawShop(active_player);
 					}
 				}
