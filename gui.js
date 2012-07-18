@@ -1,4 +1,4 @@
-function generateUi(playerObj, config)
+function generateUi(refPlayerObj, config)
 {
 	that = this;
 	var size_x=608;
@@ -6,15 +6,17 @@ function generateUi(playerObj, config)
 	var scene="";
 	var cntdown=3;
 	
+	var playerObj=[];
+	
 	var extras=new Image();
 	extras.src="img/sprites.png";
-	
+			
 	var players=new Image();
 	players.src="img/sprite_players.png";
-		
+				
 	var startScreen=new Image();
 	startScreen.src="img/logo.png";
-			
+
 	var creditsScreen=new Image();
 	creditsScreen.src="img/credits.png";
 			
@@ -25,7 +27,15 @@ function generateUi(playerObj, config)
 	var canv = document.getElementById ("canv");
 	var ctx = canv.getContext ("2d");
 	ctx.font = "15px Amiga";
-		
+	
+	function generatePlayerobj(x)
+	{
+		for (var i=0; i<x; i++){
+			console.log(refPlayerObj[i]);
+			playerObj[i]=refPlayerObj[i];
+		}
+	}
+	
 	function getNextActivePlayer(x){
 		var ret=-1
 		for (var i=x; i<playerObj.length; i++){
@@ -254,6 +264,7 @@ function generateUi(playerObj, config)
 		}else if (scene === "menu"){
 			if (event.which == playerObj[0].controls.bomb){ //enter
 				active_position=0;
+				generatePlayerobj(config.menu[1].value);
 				draw("playerChoice");
 			}else if (event.which == playerObj[0].controls.left){ //left
 				if (active_position > 1){
@@ -397,5 +408,6 @@ function generateUi(playerObj, config)
 			}
 		}
 	});
+	generatePlayerobj(2);
 	draw("start");
 }
