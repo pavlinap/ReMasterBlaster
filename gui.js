@@ -1,4 +1,4 @@
-function generateUi(playerObj, config)
+function generateUi(imgs)
 {
 	var that = this;
 	
@@ -47,18 +47,12 @@ function generateUi(playerObj, config)
 	scene="";
 	var cntdown=3;
 	
-	var extras=new Image();
-	extras.src="img/sprites.png";
-			
-	var players=new Image();
-	players.src="img/sprite_players.png";
-				
-	var startScreen=new Image();
-	startScreen.src="img/logo.png";
-
-	var creditsScreen=new Image();
-	creditsScreen.src="img/credits.png";
-			
+	
+	var extras=imgs[0];
+	var players=imgs[1];				
+	var startScreen=imgs[2];
+	var creditsScreen=imgs[3];
+	
 	var active_position=0;
 	var playerArray_position=0;
 	var active_player=0;

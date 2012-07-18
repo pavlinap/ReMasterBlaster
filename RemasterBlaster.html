@@ -17,11 +17,27 @@
 	<div id = "myCanvas">
 		<canvas id="canv" width="608" height="480"></canvas>
 	</div>
-	<script>		
-		window.onload = function (){
-			//start crafty		
-			generateUi();
-		}
+	<script>	
+		$(document).ready(function(){
+			function load (urls, callback) {
+				var loaded = 0;
+				images = [];
+				for (i in urls) {
+					images[i] = new Image ();
+					images[i].onload = function () {
+						if (++loaded == urls.length)
+							callback (images);
+						};
+						images[i].src = urls[i];
+				}
+			}
+			
+			load (["img/sprites.png", "img/sprite_players.png", "img/logo.png", "img/credits.png"], whendone);
+			function whendone (imgs) {
+				generateUi(imgs);
+			}
+			
+		});
 	</script>
 </body>
 </html>
