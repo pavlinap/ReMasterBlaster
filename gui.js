@@ -70,7 +70,7 @@ function generateUi(playerObj, config)
 	function generatePlayerobj(x)
 	{
 		for (var i=0; i<x; i++){
-			playerObj[i]=refPlayerObj[i];
+			playerObj[i]= jQuery.extend(true,{}, refPlayerObj[i]);
 			config.player[playerObj[i].spriteposition].taken = true;
 		}
 	}
@@ -102,6 +102,11 @@ function generateUi(playerObj, config)
 		for (var i=0;i<playerObj.length;i++){
 			playerObj[i].wins=0;
 			playerObj[i].money=0;
+			playerObj[i].maxBombs=1;
+			playerObj[i].fireRange=2;
+			playerObj[i].timebomb=false;
+			playerObj[i].speed=1.5;
+			playerObj[i].invinsible=false;
 		}
 	}
 	
@@ -138,6 +143,13 @@ function generateUi(playerObj, config)
 		for (var i=0; i< playerObj.length; i++){
 			playerObj[i].wins = myGameState[i].wins;
 			playerObj[i].money = myGameState[i].money;
+			//console.log ("playerObj[i]",playerObj[i]);
+			//console.log ("refPlayerObj[i]",refPlayerObj[i]);
+			playerObj[i].maxBombs=refPlayerObj[i].maxBombs;
+			playerObj[i].fireRange=refPlayerObj[i].fireRange;
+			playerObj[i].timebomb=refPlayerObj[i].timebomb;
+			playerObj[i].speed=refPlayerObj[i].speed;
+			playerObj[i].invinsible=refPlayerObj[i].invinsible;
 		}
 		draw("hallOfFame");
 	};
@@ -421,20 +433,19 @@ function generateUi(playerObj, config)
 				if (active_position<config.buyableExtras.length){
 					if (playerObj[active_player].money >= config.buyableExtras[active_position].prize){
 						playerObj[active_player].money = playerObj[active_player].money - config.buyableExtras[active_position].prize;
-						
 						if (config.buyableExtras[active_position].name==="EXTRA BOMB"){
 							playerObj[active_player].maxBombs++;
 						}
-						if (config.buyableExtras[active_position].name==="POWER-UP"){
+						else if (config.buyableExtras[active_position].name==="POWER-UP"){
 							playerObj[active_player].fireRange++;
 						}
-						if (config.buyableExtras[active_position].name==="TIMEBOMB"){
+						else if (config.buyableExtras[active_position].name==="TIMEBOMB"){
 							playerObj[active_player].timeBomb = true;
 						}
-						if (config.buyableExtras[active_position].name==="POWER-UP"){
+						else if (config.buyableExtras[active_position].name==="POWER-UP"){
 							playerObj[active_player].invinsible = true;
 						}
-						if (config.buyableExtras[active_position].name==="SPEED-UP"){
+						else if (config.buyableExtras[active_position].name==="SPEED-UP"){
 							playerObj[active_player].speed = playerObj[active_player].speed + 0.5;
 						}
 						console.log("geld reicht");
@@ -442,8 +453,9 @@ function generateUi(playerObj, config)
 					}
 					if(playerObj[active_player].money === 0){
 						console.log("not enough");
+						active_player++;
 						//playSound("burb");
-						drawShop(active_player);
+						//drawShop(active_player);
 					}
 				}
 				else{
@@ -459,21 +471,21 @@ function generateUi(playerObj, config)
 					}
 				};
 				//console.log("enter");
-				drawShop(active_player);
+				drawShop(getNextActivePlayer(active_player));
 			}
 			else if (event.which === playerObj[active_player].controls.up){ //up
 				if (active_position >0){
 					active_position--;
 				}
 				console.log("up");
-				drawShop(active_player);
+				drawShop(getNextActivePlayer(active_player));
 			}
 			else if (event.which === playerObj[active_player].controls.down){ //down
 				if (active_position < config.buyableExtras.length){
 					active_position++;
 				}
 				console.log("down");
-				drawShop(active_player);
+				drawShop(getNextActivePlayer(active_player));
 			}
 		}
 	});
