@@ -31,7 +31,6 @@ function generateUi(imgs)
 			{name:"SEBASTIAN",taken:false,sx:0,sy:924,sw:32,sh:44},
 			{name:"SERGEJ",taken:false,sx:0,sy:1056,sw:32,sh:44},
 			{name:"PAVLINA",taken:false,sx:0,sy:1188,sw:32,sh:44}
-			
 		],
 		"environmentExtras":[
 			{name:"throphy",sx:64,sy:224,sw:32,sh:32},
