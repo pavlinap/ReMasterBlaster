@@ -255,7 +255,7 @@ function generateUi(imgs)
 				//ctx.fillText (": ", 300, 45*y_line);
 				for(var k=0; k<config.player.length; k++){
 					if (playerObj[i].username===config.player[k].name){
-						ctx.drawImage(players,config.player[k].sx,config.player[k].sy,config.player[k].sw,config.player[k].sh,320,38*y_line,config.player[k].sw,config.player[k].sh);
+						ctx.drawImage(players,config.player[k].sx,config.player[k].sy,config.player[k].sw,config.player[k].sh,320,40*y_line,config.player[k].sw,config.player[k].sh);
 					}
 				}
 				y_line++;
