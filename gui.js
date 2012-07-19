@@ -2,7 +2,7 @@ function generateUi(imgs)
 {
 	var that = this;
 	var refPlayerObj=[
-		{username:"POLICEMAN", spriteposition: 0,controls:{left:65,right:68,up:87,down:83,bomb:32},money:3,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
+		{username:"POLICEMAN", spriteposition: 0,controls:{left:65,right:68,up:87,down:83,bomb:32},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
 		{username:"DUKE", spriteposition: 1,controls:{left:37,right:39,up:38,down:40,bomb:13},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
 		{username:"DETECTIVE", spriteposition: 2,controls:{left:49,right:51,up:52,down:50,bomb:53},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
 		{username:"GREEN", spriteposition: 3,controls:{left:54,right:56,up:57,down:55,bomb:48},money:0,maxBombs:1,fireRange:2,timebomb:false,speed:1.5,invinsible:false,wins:0},
