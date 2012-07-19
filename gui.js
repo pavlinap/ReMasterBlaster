@@ -26,7 +26,12 @@ function generateUi(imgs)
 			{name:"DETECTIVE",taken:false,sx:0,sy:264,sw:32,sh:44},
 			{name:"GREEN",taken:false,sx:0,sy:396,sw:32,sh:44},
 			{name:"CHINESE",taken:false,sx:0,sy:528,sw:32,sh:44},
-			{name:"MICHA",taken:false,sx:0,sy:660,sw:32,sh:44}
+			{name:"MICHA",taken:false,sx:0,sy:660,sw:32,sh:44},
+			{name:"MAX",taken:false,sx:0,sy:792,sw:32,sh:44},
+			{name:"SEBASTIAN",taken:false,sx:0,sy:924,sw:32,sh:44},
+			{name:"SERGEJ",taken:false,sx:0,sy:1056,sw:32,sh:44},
+			{name:"PAVLINA",taken:false,sx:0,sy:1188,sw:32,sh:44}
+			
 		],
 		"environmentExtras":[
 			{name:"throphy",sx:64,sy:224,sw:32,sh:32},
