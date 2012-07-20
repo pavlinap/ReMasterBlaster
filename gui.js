@@ -14,11 +14,11 @@ function generateUi(imgs)
 			{text:"WINS NEEDED",value:3,min:3,max:9},
 			{text:"PLAYERS",value:2,min:2,max:5},
 			{text:"SHOP",value:"ON"},
-			{text:"SHRINKING",value:"OFF"},
+			{text:"SHRINKING",value:"ON"},
 			{text:"FASTIGNITION",value:"ON"},
 			{text:"STARTMONEY",value:"OFF"},
-			{text:"NORMALLEVEL",value:"YES"},
-			{text:"GAMBLING",value:"YES"}
+			{text:"NORMALLEVEL",value:"NO"},
+			{text:"GAMBLING",value:"NO"}
 		],
 		"player":[
 			{name:"POLICEMAN",taken:false,sx:0,sy:0,sw:32,sh:44},
@@ -124,7 +124,7 @@ function generateUi(imgs)
 	};
 		
 	function toggle(value){
-		if (value=='YES'){
+		/*if (value=='YES'){
 			value='NO';
 		}
 		else if(value=='NO'){
@@ -135,7 +135,7 @@ function generateUi(imgs)
 		}
 		else if(value=='OFF'){
 			value='ON';
-		}
+		}*/
 		return value;
 	};
 			
@@ -143,8 +143,6 @@ function generateUi(imgs)
 		for (var i=0; i< playerObj.length; i++){
 			playerObj[i].wins = myGameState[i].wins;
 			playerObj[i].money = myGameState[i].money;
-			//console.log ("playerObj[i]",playerObj[i]);
-			//console.log ("refPlayerObj[i]",refPlayerObj[i]);
 			playerObj[i].maxBombs=refPlayerObj[i].maxBombs;
 			playerObj[i].fireRange=refPlayerObj[i].fireRange;
 			playerObj[i].timebomb=refPlayerObj[i].timebomb;
